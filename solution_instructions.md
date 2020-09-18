@@ -2,6 +2,9 @@
 ## Table of contents
 * [Getting started](#getting-started)
 * [Challenge 1](#challenge-1)
+* [Challenge 2](#challenge-2)
+* [Challenge 3](#challenge-3)
+* [BONUS: Challenge 4](#challenge-4)
 
 <a name="getting-started"/>
 
@@ -61,12 +64,14 @@ fetch(dogsUrl)
 <a name="challenge-2"/>
 
 ## Challenge 2
-- Be able to click on a book, you should see the book's thumbnail and description and a list of users who have liked the book.
+**Be able to click on a book, you should see the book's thumbnail and description and a list of users who have liked the book.**
 
 <a name="challenge-3"/>
 
 ## Challenge 3
-- You can like a book by clicking on a button. You are user 1 `{"id":1, "username":"pouros"}`, so to like a book send a `PATCH` request to `http://localhost:3000/books/:id` with an array of users who like the book. This array should be equal to the existing array of users that like the book, plus your user. For example, if the previous array was `"[{"id":2, "username":"auer"}, {"id":8, "username":"maverick"}]`, you should send as the body of your PATCH request:
+**You can like a book by clicking on a button. You are user 1 `{"id":1, "username":"pouros"}`, so to like a book send a `PATCH` request to `http://localhost:3000/books/:id` with an array of users who like the book.** 
+
+This array should be equal to the existing array of users that like the book, plus your user. For example, if the previous array was `"[{"id":2, "username":"auer"}, {"id":8, "username":"maverick"}]`, you should send as the body of your PATCH request:
 
 ```javascript
 {
@@ -82,5 +87,5 @@ fetch(dogsUrl)
 
 <a name="challenge-4"/>
 
-## Challenge 4
-- BONUS: Can you make it so a second patch request to the same book removes your user from the list of users? Can you toggle likes on and off?
+## BONUS: Challenge 4
+**Can you make it so a second patch request to the same book removes your user from the list of users? Can you toggle likes on and off?**
