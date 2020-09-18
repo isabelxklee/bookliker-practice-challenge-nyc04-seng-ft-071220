@@ -264,16 +264,8 @@ let turnDogIntoLi = (dog) => {
   dogsList.append(dogLi)
 
   dogLi.addEventListener("click", (event) => {
-    dogProfile.innerHTML = ""
 
-    let dogName = document.createElement("h1")
-    dogName.innerText = dog.name
-
-    let dogBreed = document.createElement("p")
-    dogBreed.innerText = dog.breed
-
-    let dogImage = document.createElement("img")
-    dogImage.src = dog.img_url
+    ...
 
     let likeButton = document.createElement("button")
     likeButton.innerText = "Like"
@@ -296,6 +288,11 @@ let turnDogIntoLi = (dog) => {
 dogLi.addEventListener("click", (event) => {
   
   ...
+
+  let likeButton = document.createElement("button")
+  likeButton.innerText = "Like"
+
+  dogProfile.append(dogName, dogBreed, dogImage, likeButton)
 
   let usersArray = [...dog.users, myUser]
 

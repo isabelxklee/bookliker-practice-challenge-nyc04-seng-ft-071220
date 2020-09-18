@@ -7,20 +7,7 @@
       "description": "Back in print for the first time in nearly thirty years, here is Yoko Ono's whimsical, delightful, subversive, startling book of instructions for art and for life. 'Burn this book after you've read it.' -- Yoko 'A dream you dream alone may be a dream, but a dream two people dream together is a reality. This is the greatest book I've ever burned.' -- John",
       "author": "Yoko Ono",
       "img_url": "https://books.google.com/books/content?id=3S8Rwr-iBdoC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-      "users": [
-        {
-          "id": 2,
-          "username": "auer"
-        },
-        {
-          "id": 8,
-          "username": "maverick"
-        },
-        {
-          "id": 1,
-          "username": "pouros"
-        }
-      ]
+      "users": []
     },
     {
       "id": 2,
@@ -29,24 +16,7 @@
       "description": "Data is fundamental to the modern world. From economic development, to healthcare, to education and public policy, we rely on numbers to allocate resources and make crucial decisions. But because so much data fails to take into account gender, because it treats men as the default and women as atypical, bias and discrimination are baked into our systems. And women pay tremendous costs for this bias, in time, money, and often with their lives.",
       "author": "Caroline Criado Perez",
       "img_url": "https://books.google.com/books/content?id=GdmEDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-      "users": [
-        {
-          "id": 10,
-          "username": "macejkovic"
-        },
-        {
-          "id": 4,
-          "username": "ann"
-        },
-        {
-          "id": 6,
-          "username": "steuber"
-        },
-        {
-          "id": 1,
-          "username": "pouros"
-        }
-      ]
+      "users": []
     },
     {
       "id": 3,
@@ -63,10 +33,6 @@
         {
           "id": 9,
           "username": "alex"
-        },
-        {
-          "id": 1,
-          "username": "pouros"
         }
       ]
     },
@@ -95,23 +61,9 @@
       "author": "Alok Vaid-Menon",
       "img_url": "https://books.google.com/books/content?id=hxGuDwAAQBAJ&printsec=frontcover&img=1&zoom=2&edge=curl&source=gbs_api",
       "users": [
-        [
-          {
-            "id": 10,
-            "username": "macejkovic"
-          },
-          {
-            "id": 4,
-            "username": "ann"
-          },
-          {
-            "id": 8,
-            "username": "maverick"
-          }
-        ],
         {
-          "id": 1,
-          "username": "pouros"
+          "id": 10,
+          "username": "macejkovic"
         }
       ]
     },
@@ -130,10 +82,6 @@
         {
           "id": 4,
           "username": "ann"
-        },
-        {
-          "id": 1,
-          "username": "pouros"
         }
       ]
     },
@@ -211,7 +159,12 @@
       "description": "Behold the Dreamers is the 2016 debut novel by Imbolo Mbue. The novel details the experiences of two New York City families during the 2008 financial crisis: an immigrant family from Cameroon, the Jonga family, and their wealthy employers, the Edwards family.",
       "author": "Imbolo Mbue",
       "img_url": "http://books.google.com/books/content?id=nEcsDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-      "users": 3
+      "users": [
+        {
+          "id": 1,
+          "username": "pouros"
+        }
+      ]
     }
   ],
   "users": [
