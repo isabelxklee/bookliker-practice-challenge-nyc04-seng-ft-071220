@@ -64,8 +64,11 @@ let turnBookIntoLi = (book) => {
         })
       })
       .then(r => r.json())
-      .then((newUser) => {
-        console.log(book.users)
+      .then((newUsersArray) => {
+        book.users.push(myUser)
+        let newUserLi = document.createElement("li")
+        newUserLi.innerText = myUser.username
+        likersList.append(newUserLi)
       })
     })
   })
