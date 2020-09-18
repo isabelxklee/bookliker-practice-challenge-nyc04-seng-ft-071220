@@ -34,6 +34,9 @@ let turnBookIntoLi = (book) => {
     let bookImage = document.createElement("img")
     bookImage.src = book.img_url
 
+    let likeButton = document.createElement("button")
+    likeButton.innerText = "Like"
+
     let likersList = document.createElement("ul")
 
     if (book.users.length > 0) {
@@ -45,6 +48,23 @@ let turnBookIntoLi = (book) => {
       })
     }
     
-    showPanel.append(bookImage, bookTitle, bookAuthor, bookSubtitle, bookDescription, likersList)
+    showPanel.append(bookImage, bookTitle, bookAuthor, bookSubtitle, bookDescription, likersList, likeButton)
+
+    likeButton.addEventListener("click", (event) => {
+      fetch(`${booksURL}/${book.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-type": "application/json"
+        },
+        body: JSON.stringify({
+          // users: [...book.users, {"id":1, "username":"pouros"}]
+          users: book.users.push({"id":1, "username":"pouros"})
+        })
+      })
+      .then(r => r.json())
+      .then((newUser) => {
+        console.log(book.users)
+      })
+    })
   })
 }
