@@ -107,8 +107,92 @@ Let's look at the `index.html` file again. You'll see that there's already a `<d
 ```
 
 ### Steps
-1. Create a click event listener for each `<li>` element.
-2. Create HTML elements for the selected book's image, description, and users.
+1. Create a local variable to store the `<div id="show-panel">`.
+
+```javascript
+const dogProfile = document.querySelector("div#show-dog")
+```
+
+2. Create a click event listener for each `<li>` element. Make sure this code is in the same function as the part where you created the `<li>` elements for each book.
+
+```javascript
+let turnDogIntoLi = (dog) => {
+  let dogLi = document.createElement("li")
+  dogLi.innerText = dog.name
+  dogsList.append(dogLi)
+
+  dogLi.addEventListener("click", (event) => {
+    // create the new HTML elements in here
+  })
+}
+```
+
+3. Create HTML elements for the selected book's image, description, and users. Append the new HTML elements to the `<div>`.
+
+```javascript
+let turnDogIntoLi = (dog) => {
+  let dogLi = document.createElement("li")
+  dogLi.innerText = dog.name
+  dogsList.append(dogLi)
+
+  dogLi.addEventListener("click", (event) => {
+    let dogName = document.createElement("h1")
+    dogName.innerText = dog.name
+
+    let dogBreed = document.createElement("p")
+    dogBreed.innerText = dog.breed
+
+    let dogImage = document.createElement("img")
+    dogImage.src = dog.img_url
+
+    dogProfile.append(dogName, dogBreed, dogImage)
+  })
+}
+```
+
+4. If you want to show only one book at a time, clear the `<div>` of all content each time you click on a book in the `<ul>`.
+
+```javascript
+let turnDogIntoLi = (dog) => {
+  let dogLi = document.createElement("li")
+  dogLi.innerText = dog.name
+  dogsList.append(dogLi)
+
+  dogLi.addEventListener("click", (event) => {
+    // this line will set the <div> to be empty before you create the new HTML elements
+    dogProfile.innerHTML = ""
+
+    let dogName = document.createElement("h1")
+    dogName.innerText = dog.name
+
+    let dogBreed = document.createElement("p")
+    dogBreed.innerText = dog.breed
+
+    let dogImage = document.createElement("img")
+    dogImage.src = dog.img_url
+
+    dogProfile.append(dogName, dogBreed, dogImage)
+  })
+}
+```
+
+If you want to write less lines of code, you can use `innerHTML` (but it's less secure):
+
+```javascript
+let turnDogIntoLi = (dog) => {
+  let dogLi = document.createElement("li")
+  dogLi.innerText = dog.name
+  dogsList.append(dogLi)
+
+  dogLi.addEventListener("click", (event) => {
+    dogProfile.innerHTML = `
+      <h1>${dog.name}</h1>
+      <p>${dog.breed}</p>
+      <img src=${dog.img_url}>
+    `
+  })
+}
+```
 
 <a name="challenge-3"/>
 
