@@ -41,7 +41,7 @@ If you take a look at the `index.html` file, you'll see that there are already s
 ```
 
 ### Steps
-1. Create local variables that store the API URL and `<ul>`.
+1. Inside `index.js`, create local variables that store the API URL and `<ul>`.
 
 Example:
 ```javascript
@@ -212,7 +212,16 @@ This array should be equal to the existing array of users that like the book, pl
 ```
 
 ### Steps
-1. Create a like button. Then add a click event listener to it.
+1. Since we already have the information for user 1, let's store it as a local variable with the other stable variables at the top of `index.js`.
+
+```javascript
+const dogsUrl = `http://localhost:3000/dogs`
+const dogsList = document.querySelector("ol#dogs-list")
+// this is our new user variable
+const myUser = {"id":1, "username":"pouros"}
+```
+
+2. Inside the helper method where we turn each book instance into an `<li>` element, create a like button. Then add a click event listener to it.
 
 ```javascript
 let turnDogIntoLi = (dog) => {
@@ -221,7 +230,6 @@ let turnDogIntoLi = (dog) => {
   dogsList.append(dogLi)
 
   dogLi.addEventListener("click", (event) => {
-    // this line will set the <div> to be empty before you create the new HTML elements
     dogProfile.innerHTML = ""
 
     let dogName = document.createElement("h1")
@@ -247,8 +255,7 @@ let turnDogIntoLi = (dog) => {
 }
 ```
 
-2. Write a fetch statement and two `.then` statements inside the like button's event listener.
-
+3. Write a fetch statement and two `.then` statements inside the like button's event listener.
 
 ```javascript
 let turnDogIntoLi = (dog) => {
@@ -283,91 +290,62 @@ let turnDogIntoLi = (dog) => {
 }
 ```
 
-3. Add the API URL, method, headers, and body to the fetch request.
+4. Since we don't want to mutate the existing user's array for each book, let's use the spread operator to create a new array with user 1 added in at the end. Make sure this method is inside the book `<li>`'s event listener, but before the click event listener for the like button.
 
 ```javascript
-let turnDogIntoLi = (dog) => {
-  let dogLi = document.createElement("li")
-  dogLi.innerText = dog.name
-  dogsList.append(dogLi)
+dogLi.addEventListener("click", (event) => {
+  
+  ...
 
-  dogLi.addEventListener("click", (event) => {
-    dogProfile.innerHTML = ""
+  let usersArray = [...dog.users, myUser]
 
-    let dogName = document.createElement("h1")
-    dogName.innerText = dog.name
-
-    let dogBreed = document.createElement("p")
-    dogBreed.innerText = dog.breed
-
-    let dogImage = document.createElement("img")
-    dogImage.src = dog.img_url
-
-    let likeButton = document.createElement("button")
-    likeButton.innerText = "Like"
-
-    dogProfile.append(dogName, dogBreed, dogImage, likeButton)
-
-    likeButton.addEventListener("click", (event) => {
-      fetch(`${dogsUrl}/${dog.id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-type": "application/json"
-        },
-        body: JSON.stringify({
-          users: dog.users.push({"id":1, "username":"amir"})
-        })
-      })
-      .then()
-      .then()
-    })
+  likeButton.addEventListener("click", (event) => {
+    fetch()
+    .then()
+    .then()
   })
-}
+})
 ```
 
-4. Fill out the two `.then` statements.
-
+5. Add the API URL, method, headers, and body to the fetch request.
 
 ```javascript
-let turnDogIntoLi = (dog) => {
-  let dogLi = document.createElement("li")
-  dogLi.innerText = dog.name
-  dogsList.append(dogLi)
-
-  dogLi.addEventListener("click", (event) => {
-    dogProfile.innerHTML = ""
-
-    let dogName = document.createElement("h1")
-    dogName.innerText = dog.name
-
-    let dogBreed = document.createElement("p")
-    dogBreed.innerText = dog.breed
-
-    let dogImage = document.createElement("img")
-    dogImage.src = dog.img_url
-
-    let likeButton = document.createElement("button")
-    likeButton.innerText = "Like"
-
-    dogProfile.append(dogName, dogBreed, dogImage, likeButton)
-
-    likeButton.addEventListener("click", (event) => {
-      fetch(`${dogsUrl}/${dog.id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-type": "application/json"
-        },
-        body: JSON.stringify({
-          users: dog.users.push({"id":1, "username":"amir"})
-        })
-      })
-      .then(response => response.json())
-      .then(() => {
-        
-      })
+likeButton.addEventListener("click", (event) => {
+  fetch(`${booksURL}/${book.id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-type": "application/json"
+    },
+    body: JSON.stringify({
+      users: usersArray
     })
   })
-}
+  .then()
+  .then()
+})
+```
+
+6. Fill out the first `.then` statement. Turn the response into a JSON object.
+
+```javascript
+likeButton.addEventListener("click", (event) => {
+  fetch(`${booksURL}/${book.id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-type": "application/json"
+    },
+    body: JSON.stringify({
+      users: usersArray
+    })
+  })
+  .then(r => r.json())
+  .then((newUsersArray) => {
+    book.users.push(myUser)
+    let newUserLi = document.createElement("li")
+    newUserLi.innerText = myUser.username
+    likersList.append(newUserLi)
+  })
+})
 ```
 
 <a name="challenge-4"/>
