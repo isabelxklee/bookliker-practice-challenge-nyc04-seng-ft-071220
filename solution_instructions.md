@@ -211,7 +211,164 @@ This array should be equal to the existing array of users that like the book, pl
 }
 ```
 
-- This route will respond with the updated book json including the list of users who have liked the book.
+### Steps
+1. Create a like button. Then add a click event listener to it.
+
+```javascript
+let turnDogIntoLi = (dog) => {
+  let dogLi = document.createElement("li")
+  dogLi.innerText = dog.name
+  dogsList.append(dogLi)
+
+  dogLi.addEventListener("click", (event) => {
+    // this line will set the <div> to be empty before you create the new HTML elements
+    dogProfile.innerHTML = ""
+
+    let dogName = document.createElement("h1")
+    dogName.innerText = dog.name
+
+    let dogBreed = document.createElement("p")
+    dogBreed.innerText = dog.breed
+
+    let dogImage = document.createElement("img")
+    dogImage.src = dog.img_url
+
+    // here's where we create the like button 
+    let likeButton = document.createElement("button")
+    likeButton.innerText = "Like"
+
+    // don't forget to append it to the parent element!
+    dogProfile.append(dogName, dogBreed, dogImage, likeButton)
+
+    likeButton.addEventListener("click", (event) => {
+      // do something here
+    })
+  })
+}
+```
+
+2. Write a fetch statement and two `.then` statements inside the like button's event listener.
+
+
+```javascript
+let turnDogIntoLi = (dog) => {
+  let dogLi = document.createElement("li")
+  dogLi.innerText = dog.name
+  dogsList.append(dogLi)
+
+  dogLi.addEventListener("click", (event) => {
+    dogProfile.innerHTML = ""
+
+    let dogName = document.createElement("h1")
+    dogName.innerText = dog.name
+
+    let dogBreed = document.createElement("p")
+    dogBreed.innerText = dog.breed
+
+    let dogImage = document.createElement("img")
+    dogImage.src = dog.img_url
+
+    let likeButton = document.createElement("button")
+    likeButton.innerText = "Like"
+
+    dogProfile.append(dogName, dogBreed, dogImage, likeButton)
+
+    likeButton.addEventListener("click", (event) => {
+      // here's the skeleton for the fetch statement and the two then statements that follow it
+      fetch()
+      .then()
+      .then()
+    })
+  })
+}
+```
+
+3. Add the API URL, method, headers, and body to the fetch request.
+
+```javascript
+let turnDogIntoLi = (dog) => {
+  let dogLi = document.createElement("li")
+  dogLi.innerText = dog.name
+  dogsList.append(dogLi)
+
+  dogLi.addEventListener("click", (event) => {
+    dogProfile.innerHTML = ""
+
+    let dogName = document.createElement("h1")
+    dogName.innerText = dog.name
+
+    let dogBreed = document.createElement("p")
+    dogBreed.innerText = dog.breed
+
+    let dogImage = document.createElement("img")
+    dogImage.src = dog.img_url
+
+    let likeButton = document.createElement("button")
+    likeButton.innerText = "Like"
+
+    dogProfile.append(dogName, dogBreed, dogImage, likeButton)
+
+    likeButton.addEventListener("click", (event) => {
+      fetch(`${dogsUrl}/${dog.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-type": "application/json"
+        },
+        body: JSON.stringify({
+          users: dog.users.push({"id":1, "username":"amir"})
+        })
+      })
+      .then()
+      .then()
+    })
+  })
+}
+```
+
+4. Fill out the two `.then` statements.
+
+
+```javascript
+let turnDogIntoLi = (dog) => {
+  let dogLi = document.createElement("li")
+  dogLi.innerText = dog.name
+  dogsList.append(dogLi)
+
+  dogLi.addEventListener("click", (event) => {
+    dogProfile.innerHTML = ""
+
+    let dogName = document.createElement("h1")
+    dogName.innerText = dog.name
+
+    let dogBreed = document.createElement("p")
+    dogBreed.innerText = dog.breed
+
+    let dogImage = document.createElement("img")
+    dogImage.src = dog.img_url
+
+    let likeButton = document.createElement("button")
+    likeButton.innerText = "Like"
+
+    dogProfile.append(dogName, dogBreed, dogImage, likeButton)
+
+    likeButton.addEventListener("click", (event) => {
+      fetch(`${dogsUrl}/${dog.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-type": "application/json"
+        },
+        body: JSON.stringify({
+          users: dog.users.push({"id":1, "username":"amir"})
+        })
+      })
+      .then(response => response.json())
+      .then(() => {
+        
+      })
+    })
+  })
+}
+```
 
 <a name="challenge-4"/>
 

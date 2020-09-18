@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", function() {})
 const booksURL = 'http://localhost:3000/books'
 const bookList = document.getElementById("list")
 const showPanel = document.getElementById("show-panel")
+const myUser = {"id":1, "username":"pouros"}
 
 fetch(booksURL)
 .then(r => r.json())
@@ -50,6 +51,8 @@ let turnBookIntoLi = (book) => {
     
     showPanel.append(bookImage, bookTitle, bookAuthor, bookSubtitle, bookDescription, likersList, likeButton)
 
+    let usersArray = [...book.users, myUser]
+
     likeButton.addEventListener("click", (event) => {
       fetch(`${booksURL}/${book.id}`, {
         method: "PATCH",
@@ -57,8 +60,7 @@ let turnBookIntoLi = (book) => {
           "Content-type": "application/json"
         },
         body: JSON.stringify({
-          // users: [...book.users, {"id":1, "username":"pouros"}]
-          users: book.users.push({"id":1, "username":"pouros"})
+          users: usersArray
         })
       })
       .then(r => r.json())
