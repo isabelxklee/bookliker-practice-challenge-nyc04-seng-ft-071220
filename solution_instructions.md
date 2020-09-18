@@ -40,8 +40,8 @@ If you take a look at the `index.html` file, you'll see that there are already s
 </body>
 ```
 
-### Steps
-1. Inside `index.js`, create local variables that store the API URL and `<ul>`.
+## Steps
+### 1. Inside `index.js`, create local variables that store the API URL and `<ul>`.
 
 Example:
 ```javascript
@@ -49,7 +49,7 @@ const dogsUrl = `http://localhost:3000/dogs`
 const dogsList = document.querySelector("ol#dogs-list")
 ```
 
-2. Create a fetch statement using the API URL.
+### 2. Create a fetch statement using the API URL.
 
 Example:
 ```javascript
@@ -62,7 +62,7 @@ fetch(dogsUrl)
 })
 ```
 
-3. Write a helper method that turns each book instance into an `<li>` element.
+### 3. Write a helper method that turns each book instance into an `<li>` element.
 
 Example:
 ```javascript
@@ -73,7 +73,7 @@ let turnDogIntoLi = (dog) => {
 }
 ```
 
-4. Invoke this helper method inside the second `.then` statement.
+### 4. Invoke this helper method inside the second `.then` statement.
 
 Example:
 ```javascript
@@ -106,14 +106,14 @@ Let's look at the `index.html` file again. You'll see that there's already a `<d
 </body>
 ```
 
-### Steps
-1. Create a local variable to store the `<div id="show-panel">`.
+## Steps
+### 1. Create a local variable to store the `<div id="show-panel">`.
 
 ```javascript
 const dogProfile = document.querySelector("div#show-dog")
 ```
 
-2. Create a click event listener for each `<li>` element. Make sure this code is in the same function as the part where you created the `<li>` elements for each book.
+### 2. Create a click event listener for each `<li>` element. Make sure this code is in the same function as the part where you created the `<li>` elements for each book.
 
 ```javascript
 let turnDogIntoLi = (dog) => {
@@ -127,7 +127,7 @@ let turnDogIntoLi = (dog) => {
 }
 ```
 
-3. Create HTML elements for the selected book's image, description, and users. Append the new HTML elements to the `<div>`.
+### 3. Create HTML elements for the selected book's image, description, and users. Append the new HTML elements to the `<div>`.
 
 ```javascript
 let turnDogIntoLi = (dog) => {
@@ -150,7 +150,7 @@ let turnDogIntoLi = (dog) => {
 }
 ```
 
-4. If you want to show only one book at a time, clear the `<div>` of all content each time you click on a book in the `<ul>`.
+### 4. If you want to show only one book at a time, clear the `<div>` of all content each time you click on a book in the `<ul>`.
 
 ```javascript
 let turnDogIntoLi = (dog) => {
@@ -211,8 +211,8 @@ This array should be equal to the existing array of users that like the book, pl
 }
 ```
 
-### Steps
-1. Since we already have the information for user 1, let's store it as a local variable with the other stable variables at the top of `index.js`.
+## Steps
+### 1. Since we already have the information for user 1, let's store it as a local variable with the other stable variables at the top of `index.js`.
 
 ```javascript
 const dogsUrl = `http://localhost:3000/dogs`
@@ -221,7 +221,7 @@ const dogsList = document.querySelector("ol#dogs-list")
 const myUser = {"id":1, "username":"pouros"}
 ```
 
-2. Inside the helper method where we turn each book instance into an `<li>` element, create a like button. Then add a click event listener to it.
+### 2. Inside the helper method where we turn each book instance into an `<li>` element, create a like button. Then add a click event listener to it.
 
 ```javascript
 let turnDogIntoLi = (dog) => {
@@ -255,7 +255,7 @@ let turnDogIntoLi = (dog) => {
 }
 ```
 
-3. Write a fetch statement and two `.then` statements inside the like button's event listener.
+### 3. Write a fetch statement and two `.then` statements inside the like button's event listener.
 
 ```javascript
 let turnDogIntoLi = (dog) => {
@@ -290,7 +290,7 @@ let turnDogIntoLi = (dog) => {
 }
 ```
 
-4. Since we don't want to mutate the existing user's array for each book, let's use the spread operator to create a new array with user 1 added in at the end. Make sure this method is inside the book `<li>`'s event listener, but before the click event listener for the like button.
+### 4. Since we don't want to mutate the existing user's array for each book, let's use the spread operator to create a new array with user 1 added in at the end. Make sure this method is inside the book `<li>`'s event listener, but before the click event listener for the like button.
 
 ```javascript
 dogLi.addEventListener("click", (event) => {
@@ -307,7 +307,7 @@ dogLi.addEventListener("click", (event) => {
 })
 ```
 
-5. Add the API URL, method, headers, and body to the fetch request.
+### 5. Add the API URL, method, headers, and body to the fetch request.
 
 ```javascript
 likeButton.addEventListener("click", (event) => {
@@ -326,7 +326,7 @@ likeButton.addEventListener("click", (event) => {
 })
 ```
 
-6. Fill out the first `.then` statement. Turn the response into a JSON object.
+### 6. Fill out the first `.then` statement. Turn the response into a JSON object.
 
 ```javascript
 likeButton.addEventListener("click", (event) => {
@@ -344,7 +344,7 @@ likeButton.addEventListener("click", (event) => {
 })
 ```
 
-7. Fill out the second `.then` statement. Push user 1 into the object in memory (`book.users`), then create a new `<li>` element for user 1 and append it to the list of users who've liked the book.
+### 7. Fill out the second `.then` statement. Push user 1 into the object in memory (`book.users`), then create a new `<li>` element for user 1 and append it to the list of users who've liked the book.
 
 Remember that we have to update 3 things: the object in memory (the JSON object), the backend (the data stored in our `db.json` file), and the DOM (what you see in the browser).
 
