@@ -20,19 +20,19 @@ json-server db.json
 <a name="challenge-1"/>
 
 ## Challenge 1
-Get a list of books (`http://localhost:3000/books`) and render them on to the page.
+**Get a list of books (`http://localhost:3000/books`) and render them on to the page.**
 
 If you take a look at the `index.html` file, you'll see that there are already some stable HTML elements in the `<body>` tag. Since there is a `<ul>` tag with `id="list"`, this is where we should render each of the book titles as an `<li>`. 
 
 ```html
 <body>
-	<div id="list-panel">
-		<ul id="list">
+  <div id="list-panel">
+    <ul id="list">
     <!-- book list should go here! -->
-		</ul>
-	</div>
-	<div id="show-panel"></div>
-	<script type="text/javascript" src="./js/index.js"></script>
+    </ul>
+  </div>
+  <div id="show-panel"></div>
+  <script type="text/javascript" src="./js/index.js"></script>
 </body>
 ```
 
