@@ -311,12 +311,13 @@ dogLi.addEventListener("click", (event) => {
 
 ```javascript
 likeButton.addEventListener("click", (event) => {
-  fetch(`${booksURL}/${book.id}`, {
+  fetch(`${dogsUrl}/${dog.id}`, {
     method: "PATCH",
     headers: {
       "Content-type": "application/json"
     },
     body: JSON.stringify({
+      // remember that usersArray already contains user 1 from the previous step
       users: usersArray
     })
   })
@@ -329,7 +330,7 @@ likeButton.addEventListener("click", (event) => {
 
 ```javascript
 likeButton.addEventListener("click", (event) => {
-  fetch(`${booksURL}/${book.id}`, {
+  fetch(`${dogsUrl}/${dog.id}`, {
     method: "PATCH",
     headers: {
       "Content-type": "application/json"
@@ -338,9 +339,29 @@ likeButton.addEventListener("click", (event) => {
       users: usersArray
     })
   })
-  .then(r => r.json())
+  .then(response => response.json())
+  .then()
+})
+```
+
+7. Fill out the second `.then` statement. Push user 1 into the object in memory (`book.users`), then create a new `<li>` element for user 1 and append it to the list of users who've liked the book.
+
+Remember that we have to update 3 things: the object in memory (the JSON object), the backend (the data stored in our `db.json` file), and the DOM (what you see in the browser).
+
+```javascript
+likeButton.addEventListener("click", (event) => {
+  fetch(`${dogsUrl}/${dog.id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-type": "application/json"
+    },
+    body: JSON.stringify({
+      users: usersArray
+    })
+  })
+  .then(response => response.json())
   .then((newUsersArray) => {
-    book.users.push(myUser)
+    dog.users.push(myUser)
     let newUserLi = document.createElement("li")
     newUserLi.innerText = myUser.username
     likersList.append(newUserLi)
