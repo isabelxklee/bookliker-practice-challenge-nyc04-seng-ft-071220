@@ -3,7 +3,6 @@ const booksURL = 'http://localhost:3000/books'
 const bookList = document.getElementById("list")
 const showPanel = document.getElementById("show-panel")
 const myUser = {"id": 1, "username": "pouros"}
-let existingUser = false
 
 fetch(booksURL)
 .then(r => r.json())
@@ -12,6 +11,32 @@ fetch(booksURL)
     turnBookIntoLi(book)
   })
 })
+
+let checkExistingUser = (book) => {
+  let existingUser = false
+
+  if (book.users.length > 0) {
+    book.users.forEach((user) => {
+      if (user.username == myUser.username) {
+        existingUser = true
+      }
+    })
+  } else {
+    existingUser = false
+  }
+
+  return existingUser
+}
+
+let setUsersArray = (book) => {  
+  if (!checkExistingUser(book)) {
+    usersArray = book.users.filter(checkUsername)
+  } else {
+    usersArray = [...book.users, myUser]
+  }
+
+  return usersArray
+}
 
 let turnBookIntoLi = (book) => {
   let bookLi = document.createElement("li")
@@ -54,29 +79,15 @@ let turnBookIntoLi = (book) => {
     
     showPanel.append(bookImage, bookTitle, bookAuthor, bookSubtitle, bookDescription, likersList, likeButton)
 
-    let usersArray = []
-
     let checkUsername = (user) => {
-      user.username !== myUser.username
-    }
-
-    if (book.users.length > 0) {
-      book.users.forEach((user) => {
-        if (user.username == myUser.username) {
-          existingUser = true
-          usersArray = book.users.filter(checkUsername)
-        } else {
-          existingUser = false
-          usersArray = [...book.users, myUser]
-        }
-      })
-    } else {
-      usersArray = [myUser]
+      return user.username !== myUser.username
     }
 
     likeButton.addEventListener("click", (event) => {
+      if (!checkExistingUser(book)) {
+        let usersArray = book.users.push(myUser)
+        console.log(book.users)
 
-      if (existingUser == false) {
         fetch(`${booksURL}/${book.id}`, {
           method: "PATCH",
           headers: {
@@ -87,9 +98,9 @@ let turnBookIntoLi = (book) => {
           })
         })
         .then(r => r.json())
-        .then(() => {
-          book.users = usersArray
-          addUser()
+        .then((newBook) => {
+          book.users = newBook.users
+          updateLikersList(book.users)
         })
       } else {
         fetch(`${booksURL}/${book.id}`, {
@@ -98,28 +109,30 @@ let turnBookIntoLi = (book) => {
             "Content-type": "application/json"
           },
           body: JSON.stringify({
-            users: usersArray
+            users: book.users.filter(checkUsername)
           })
         })
         .then(r => r.json())
-        .then(() => {
-          book.users = usersArray
-          removeUser()
+        .then((newBook) => {
+          book.users = newBook.users
+          updateLikersList(book.users)
         })
       }
     })
   })
 }
 
-let removeUser = () => {
-  let likersList = document.querySelector("ul#users-list")
-  let removedUser = document.querySelector(`li#${myUser.username}`)
-  likersList.removeChild(removedUser)
-}
+let updateLikersList = (users) => {
+  console.log(users)
 
-let addUser = () => {
   let likersList = document.querySelector("ul#users-list")
-  let newUserLi = document.createElement("li")
-  newUserLi.innerText = myUser.username
-  likersList.append(newUserLi)
+  likersList.innerHTML = ""
+
+  users.forEach((user) => {
+    let likeUser = document.createElement("li")
+    likeUser.innerText = user.username
+    likeUser.id = user.username
+
+    likersList.append(likeUser)
+  })
 }
