@@ -507,6 +507,110 @@ likeButton.addEventListener("click", (event) => {
 })
 ```
 
-#### 6. Let's also create a helper method to update the DOM with the latest users array.
+#### 6. Fill out the first `.then` statement. Turn the response into a JSON object.
 
-#### 7. Invoke this helper method in both of the PATCH requests.
+```javascript
+// here's our helper method for the filter() method
+let findUser = (user) => {
+  return user.username !== myUser.username
+}
+
+likeButton.addEventListener("click", (event) => {
+  if (!checkExistingUser(book)) {
+    book.users.push(myUser)
+  } else {
+    // otherwise, do something else here
+    book.users = book.users.filter(findUser)
+  }
+
+  fetch(`${booksURL}/${book.id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-type": "application/json"
+    },
+    body: JSON.stringify({
+      // book.users has already been updated from the if/else statement we wrote above
+      users: book.users
+    })
+  })
+  .then(response => response.json())
+  .then()
+})
+```
+
+#### 7. For the second `.then` statement, we're going to update the object in memory first.
+
+```javascript
+// here's our helper method for the filter() method
+let findUser = (user) => {
+  return user.username !== myUser.username
+}
+
+likeButton.addEventListener("click", (event) => {
+  if (!checkExistingUser(book)) {
+    book.users.push(myUser)
+  } else {
+    // otherwise, do something else here
+    book.users = book.users.filter(findUser)
+  }
+
+  fetch(`${booksURL}/${book.id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-type": "application/json"
+    },
+    body: JSON.stringify({
+      // book.users has already been updated from the if/else statement we wrote above
+      users: book.users
+    })
+  })
+  .then(response => response.json())
+  .then((updatedBook) => {
+    book.users = updatedBook.users
+  })
+})
+```
+
+#### 8. Then we're going to create a helper method for updating the DOM. Inside this helper method, let's clear the entire users list of all its HTML elements. Then lets create new <li> elements for each user.
+
+```javascript
+let updateLikersList = (users) => {
+  // identify the users list
+  let likersList = document.querySelector("ul#users-list")
+
+  // clear the list of all HTML elements
+  likersList.innerHTML = ""
+
+  // iterate through all the book's users and create a new <li> element for each one
+  users.forEach((user) => {
+    let likeUser = document.createElement("li")
+    likeUser.innerText = user.username
+    likeUser.id = user.username
+    
+    // don't forget to append the <li> elements to the parent list!
+    likersList.append(likeUser)
+  })
+}
+```
+
+#### 7. Invoke this helper method in the second `.then` statement.
+
+```javascript
+fetch(`${booksURL}/${book.id}`, {
+  method: "PATCH",
+  headers: {
+    "Content-type": "application/json"
+  },
+  body: JSON.stringify({
+    // book.users has already been updated from the if/else statement we wrote above
+    users: book.users
+  })
+})
+.then(response => response.json())
+.then((updatedBook) => {
+  book.users = updatedBook.users
+  updateLikersList(book.users)
+})
+```
+
+Et voilà! That is how you solve the bonus challenge. 🌟

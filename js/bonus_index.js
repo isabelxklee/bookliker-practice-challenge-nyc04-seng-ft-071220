@@ -90,8 +90,8 @@ let turnBookIntoLi = (book) => {
         })
       })
       .then(response => response.json())
-      .then((newBook) => {
-        book.users = newBook.users
+      .then((updatedBook) => {
+        book.users = updatedBook.users
         updateLikersList(book.users)
       })
     })
