@@ -28,15 +28,15 @@ let checkExistingUser = (book) => {
   return existingUser
 }
 
-let setUsersArray = (book) => {  
-  if (!checkExistingUser(book)) {
-    usersArray = book.users.filter(checkUsername)
-  } else {
-    usersArray = [...book.users, myUser]
-  }
+// let setUsersArray = (book) => {  
+//   if (!checkExistingUser(book)) {
+//     usersArray = book.users.filter(checkUsername)
+//   } else {
+//     usersArray = [...book.users, myUser]
+//   }
 
-  return usersArray
-}
+//   return usersArray
+// }
 
 let turnBookIntoLi = (book) => {
   let bookLi = document.createElement("li")
@@ -85,8 +85,7 @@ let turnBookIntoLi = (book) => {
 
     likeButton.addEventListener("click", (event) => {
       if (!checkExistingUser(book)) {
-        let usersArray = book.users.push(myUser)
-        console.log(book.users)
+        book.users.push(myUser)
 
         fetch(`${booksURL}/${book.id}`, {
           method: "PATCH",
@@ -94,7 +93,7 @@ let turnBookIntoLi = (book) => {
             "Content-type": "application/json"
           },
           body: JSON.stringify({
-            users: usersArray
+            users: book.users
           })
         })
         .then(r => r.json())
