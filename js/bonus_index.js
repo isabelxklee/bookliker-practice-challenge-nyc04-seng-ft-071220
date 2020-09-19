@@ -69,44 +69,31 @@ let turnBookIntoLi = (book) => {
     
     showPanel.append(bookImage, bookTitle, bookAuthor, bookSubtitle, bookDescription, likersList, likeButton)
 
-    let checkUsername = (user) => {
+    let findUser = (user) => {
       return user.username !== myUser.username
     }
 
     likeButton.addEventListener("click", (event) => {
       if (!checkExistingUser(book)) {
         book.users.push(myUser)
-
-        fetch(`${booksURL}/${book.id}`, {
-          method: "PATCH",
-          headers: {
-            "Content-type": "application/json"
-          },
-          body: JSON.stringify({
-            users: book.users
-          })
-        })
-        .then(response => response.json())
-        .then((newBook) => {
-          book.users = newBook.users
-          updateLikersList(book.users)
-        })
       } else {
-        fetch(`${booksURL}/${book.id}`, {
-          method: "PATCH",
-          headers: {
-            "Content-type": "application/json"
-          },
-          body: JSON.stringify({
-            users: book.users.filter(checkUsername)
-          })
-        })
-        .then(response => response.json())
-        .then((newBook) => {
-          book.users = newBook.users
-          updateLikersList(book.users)
-        })
+        book.users = book.users.filter(findUser)
       }
+
+      fetch(`${booksURL}/${book.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-type": "application/json"
+        },
+        body: JSON.stringify({
+          users: book.users
+        })
+      })
+      .then(response => response.json())
+      .then((newBook) => {
+        book.users = newBook.users
+        updateLikersList(book.users)
+      })
     })
   })
 }

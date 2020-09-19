@@ -396,4 +396,117 @@ Et voilà! That is how you solve all the core deliverables for this lab. 🌟 Yo
 Since we are going to be doing some major refactoring for this bonus challenge, please refer to `bonus_index.js` for the solution code.
 
 ## Steps
-#### 1. Inside `index.js`, create local variables that store the API URL and `<ul>`.
+#### 1. In order to remove our user from a book's users list, we're going to have to check to see if our uer exists or not. Let's create a helper method for this.
+
+```javascript
+let checkExistingUser = (book) => {
+  let existingUser = false
+
+  if (book.users.length > 0) {
+    book.users.forEach((user) => {
+      if (user.username == myUser.username) {
+        existingUser = true
+      }
+    })
+  } else {
+    existingUser = false
+  }
+
+  return existingUser
+}
+```
+
+#### 2. Add in if/else statement inside the like button's event listener. If our user doesn't exist in the book's users array, we're going to push it into the array. Otherwise, we're going to remove our user from the array. Inside the if statement, invoke the helper method that we created in the previous step. This should return a boolean value (true or false).
+
+```javascript
+likeButton.addEventListener("click", (event) => {
+  if (!checkExistingUser(book)) {
+    // if the user doesn't exist, do something here
+  } else {
+    // otherwise, do something else here
+  }
+})
+```
+
+#### 3. For the first condition, let's push our user into the users array.
+
+```javascript
+likeButton.addEventListener("click", (event) => {
+  if (!checkExistingUser(book)) {
+    // if the user doesn't exist, do something here
+    book.users.push(myUser)
+  } else {
+    // otherwise, do something else here
+  }
+})
+```
+
+#### 4. For the second condition, remove the user from the array. We can use javascript's built-in `filter()` array method to achieve this. Since the `filter()` method returns a new array with the elements that meet a condition, it requires a helper method to test each element. Let's write a helper method for this.
+
+```javascript
+// here's our helper method for the filter() method
+let findUser = (user) => {
+  return user.username !== myUser.username
+}
+
+likeButton.addEventListener("click", (event) => {
+  if (!checkExistingUser(book)) {
+    book.users.push(myUser)
+  } else {
+    // otherwise, do something else here
+  }
+})
+```
+
+#### 5. Let's fill out our else statement and invoke the helper method for the filter() method. Make sure to update book.users with this new array.
+
+```javascript
+// here's our helper method for the filter() method
+let findUser = (user) => {
+  return user.username !== myUser.username
+}
+
+likeButton.addEventListener("click", (event) => {
+  if (!checkExistingUser(book)) {
+    book.users.push(myUser)
+  } else {
+    // otherwise, do something else here
+    book.users = book.users.filter(findUser)
+  }
+})
+```
+
+#### 6. Now let's write our PATCH request after the if/else statement.
+
+```javascript
+// here's our helper method for the filter() method
+let findUser = (user) => {
+  return user.username !== myUser.username
+}
+
+likeButton.addEventListener("click", (event) => {
+  if (!checkExistingUser(book)) {
+    book.users.push(myUser)
+  } else {
+    // otherwise, do something else here
+    book.users = book.users.filter(findUser)
+  }
+
+  fetch(`${booksURL}/${book.id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-type": "application/json"
+    },
+    body: JSON.stringify({
+      // book.users has already been updated from the if/else statement we wrote above
+      users: book.users
+    })
+  })
+  .then()
+  .then()
+})
+```
+
+#### 6. Let's also create a helper method to update the DOM with the latest users array.
+
+#### 7. Invoke this helper method in both of the PATCH requests.
