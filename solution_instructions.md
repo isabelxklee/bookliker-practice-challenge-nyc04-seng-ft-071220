@@ -242,39 +242,61 @@ This array should be equal to the existing array of users that like the book, pl
 #### 1. Since we already have the information for user 1, let's store it as a local variable with the other stable variables at the top of `index.js`.
 
 ```javascript
-const dogsUrl = `http://localhost:3000/dogs`
-const dogsList = document.querySelector("ol#dogs-list")
+const booksURL = 'http://localhost:3000/books'
+const bookList = document.getElementById("list")
+const showPanel = document.getElementById("show-panel")
+
 // this is our new user variable
-const myUser = {"id":1, "username":"pouros"}
+const myUser = {"id": 1, "username": "pouros"}
 ```
 
 #### 2. Inside the helper method where we turn each book instance into an `<li>` element, create a like button. Then add a click event listener to it.
 
 ```javascript
-let turnDogIntoLi = (dog) => {
-  let dogLi = document.createElement("li")
-  dogLi.innerText = dog.name
-  dogsList.append(dogLi)
+let turnBookIntoLi = (book) => {
+  let bookLi = document.createElement("li")
+  bookLi.innerText = book.title
+  bookList.append(bookLi)
 
-  dogLi.addEventListener("click", (event) => {
-    dogProfile.innerHTML = ""
+  bookLi.addEventListener("click", (event) => {
+    showPanel.innerHTML = ""
 
-    let dogName = document.createElement("h1")
-    dogName.innerText = dog.name
+    let bookTitle = document.createElement("h1")
+    bookTitle.innerText = book.title
 
-    let dogBreed = document.createElement("p")
-    dogBreed.innerText = dog.breed
+    let bookSubtitle = document.createElement("h2")
+    bookSubtitle.innerText = book.subtitle
 
-    let dogImage = document.createElement("img")
-    dogImage.src = dog.img_url
+    let bookDescription = document.createElement("p")
+    bookDescription.innerText = book.description
 
-    // here's where we create the like button 
+    let bookAuthor = document.createElement("p")
+    bookAuthor.innerText = book.author
+
+    let bookImage = document.createElement("img")
+    bookImage.src = book.img_url
+
+    let likersList = document.createElement("ul")
+    likersList.id = "users-list"
+
+    // here's where the new like button is being created
     let likeButton = document.createElement("button")
     likeButton.innerText = "Like"
 
-    // don't forget to append it to the parent element!
-    dogProfile.append(dogName, dogBreed, dogImage, likeButton)
+    if (book.users.length > 0) {
+      book.users.forEach((user) => {
+        let likeUser = document.createElement("li")
+        likeUser.innerText = user.username
+        likeUser.id = user.username
 
+        likersList.append(likeUser)
+      })
+    }
+
+    // don't forget to append the new like button to the show panel!
+    showPanel.append(bookImage, bookTitle, bookAuthor, bookSubtitle, bookDescription, likersList, likeButton)
+
+    // here's the event listener for the like button
     likeButton.addEventListener("click", (event) => {
       // do something here
     })
@@ -285,19 +307,29 @@ let turnDogIntoLi = (dog) => {
 #### 3. Write a fetch statement and two `.then` statements inside the like button's event listener.
 
 ```javascript
-let turnDogIntoLi = (dog) => {
-  let dogLi = document.createElement("li")
-  dogLi.innerText = dog.name
-  dogsList.append(dogLi)
+let turnBookIntoLi = (book) => {
+  let bookLi = document.createElement("li")
+  bookLi.innerText = book.title
+  bookList.append(bookLi)
 
-  dogLi.addEventListener("click", (event) => {
-
+  bookLi.addEventListener("click", (event) => {
+    
     ...
 
     let likeButton = document.createElement("button")
     likeButton.innerText = "Like"
 
-    dogProfile.append(dogName, dogBreed, dogImage, likeButton)
+    if (book.users.length > 0) {
+      book.users.forEach((user) => {
+        let likeUser = document.createElement("li")
+        likeUser.innerText = user.username
+        likeUser.id = user.username
+
+        likersList.append(likeUser)
+      })
+    }
+
+    showPanel.append(bookImage, bookTitle, bookAuthor, bookSubtitle, bookDescription, likersList, likeButton)
 
     likeButton.addEventListener("click", (event) => {
       // here's the skeleton for the fetch statement and the two then statements that follow it
