@@ -28,16 +28,6 @@ let checkExistingUser = (book) => {
   return existingUser
 }
 
-// let setUsersArray = (book) => {  
-//   if (!checkExistingUser(book)) {
-//     usersArray = book.users.filter(checkUsername)
-//   } else {
-//     usersArray = [...book.users, myUser]
-//   }
-
-//   return usersArray
-// }
-
 let turnBookIntoLi = (book) => {
   let bookLi = document.createElement("li")
   bookLi.innerText = book.title
@@ -72,7 +62,7 @@ let turnBookIntoLi = (book) => {
         let likeUser = document.createElement("li")
         likeUser.innerText = user.username
         likeUser.id = user.username
-  
+
         likersList.append(likeUser)
       })
     }
@@ -122,8 +112,6 @@ let turnBookIntoLi = (book) => {
 }
 
 let updateLikersList = (users) => {
-  console.log(users)
-
   let likersList = document.querySelector("ul#users-list")
   likersList.innerHTML = ""
 
@@ -131,7 +119,7 @@ let updateLikersList = (users) => {
     let likeUser = document.createElement("li")
     likeUser.innerText = user.username
     likeUser.id = user.username
-
+    
     likersList.append(likeUser)
   })
 }
