@@ -571,7 +571,7 @@ likeButton.addEventListener("click", (event) => {
 })
 ```
 
-#### 8. Then we're going to create a helper method for updating the DOM. Inside this helper method, let's clear the entire users list of all its HTML elements. Then lets create new <li> elements for each user.
+#### 8. Then we're going to create a helper method for updating the DOM. Inside this helper method, let's clear the entire users list of all its HTML elements. Then lets create new `<li>` elements for each user.
 
 ```javascript
 let updateLikersList = (users) => {
@@ -602,7 +602,6 @@ fetch(`${booksURL}/${book.id}`, {
     "Content-type": "application/json"
   },
   body: JSON.stringify({
-    // book.users has already been updated from the if/else statement we wrote above
     users: book.users
   })
 })
