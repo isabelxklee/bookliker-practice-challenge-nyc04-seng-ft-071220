@@ -20,6 +20,7 @@ json-server db.json
 * Open `http://localhost:3000/users` to see all the user instances.
 * Run `open index.html` to see your app in the browser.
 * Don't forget to refresh the browser every time you make a change in your code.
+* Make a copy of `db.json` and save it as `original_db.json`. This is so that you can always refer back to the original database in case you mess up the database with incorrect PATCH requests.
 
 <a name="challenge-1"/>
 
@@ -45,19 +46,19 @@ If you take a look at the `index.html` file, you'll see that there are already s
 
 Example:
 ```javascript
-const dogsUrl = `http://localhost:3000/dogs`
-const dogsList = document.querySelector("ol#dogs-list")
+const booksURL = 'http://localhost:3000/books'
+const bookList = document.getElementById("list")
 ```
 
 #### 2. Create a fetch statement using the API URL.
 
 Example:
 ```javascript
-fetch(dogsUrl)
+fetch(booksURL)
 .then(response => response.json())
-.then((dogsArray) => {
-  dogsArray.forEach((dog) => {
-    // do something to each dog instance
+.then((booksArr) => {
+  booksArr.forEach((book) => {
+    // do something to each book instance here
   })
 })
 ```
@@ -66,23 +67,23 @@ fetch(dogsUrl)
 
 Example:
 ```javascript
-let turnDogIntoLi = (dog) => {
-  let dogLi = document.createElement("li")
-  dogLi.innerText = dog.name
-  dogsList.append(dogLi)
+let turnBookIntoLi = (book) => {
+  let bookLi = document.createElement("li")
+  bookLi.innerText = book.title
+  bookList.append(bookLi)
 }
 ```
 
-#### 4. Invoke this helper method inside the second `.then` statement.
+#### 4. Invoke this helper method inside the second `.then` statement of the fetch request that you just wrote.
 
 Example:
 ```javascript
-fetch(dogsUrl)
+fetch(booksURL)
 .then(response => response.json())
-.then((dogsArray) => {
-  dogsArray.forEach((dog) => {
-    // do something to each dog instance
-    turnDogIntoLi(dog)
+.then((booksArr) => {
+  booksArr.forEach((book) => {
+    // here's our new helper method!
+    turnBookIntoLi(book)
   })
 })
 ```
@@ -110,42 +111,67 @@ Let's look at the `index.html` file again. You'll see that there's already a `<d
 #### 1. Create a local variable to store the `<div id="show-panel">`.
 
 ```javascript
-const dogProfile = document.querySelector("div#show-dog")
+const booksURL = 'http://localhost:3000/books'
+const bookList = document.getElementById("list")
+const showPanel = document.getElementById("show-panel")
 ```
 
 #### 2. Create a click event listener for each `<li>` element. Make sure this code is in the same function as the part where you created the `<li>` elements for each book.
 
 ```javascript
-let turnDogIntoLi = (dog) => {
-  let dogLi = document.createElement("li")
-  dogLi.innerText = dog.name
-  dogsList.append(dogLi)
+let turnBookIntoLi = (book) => {
+  let bookLi = document.createElement("li")
+  bookLi.innerText = book.title
+  bookList.append(bookLi)
 
-  dogLi.addEventListener("click", (event) => {
+  // here's our event listener
+  bookLi.addEventListener("click", (event) => {
     // create the new HTML elements in here
   })
 }
 ```
 
-#### 3. Create HTML elements for the selected book's image, description, and users. Append the new HTML elements to the `<div>`.
+#### 3. Create HTML elements for the selected book's information, such as its image, title, author, subtitle, and description. For the list of users who've liked this book, create a new `<ul>` element and add each user as a `<li>` element. Append all the new HTML elements to the `<div id="show-panel">`.
 
 ```javascript
-let turnDogIntoLi = (dog) => {
-  let dogLi = document.createElement("li")
-  dogLi.innerText = dog.name
-  dogsList.append(dogLi)
+let turnBookIntoLi = (book) => {
+  let bookLi = document.createElement("li")
+  bookLi.innerText = book.title
+  bookList.append(bookLi)
 
-  dogLi.addEventListener("click", (event) => {
-    let dogName = document.createElement("h1")
-    dogName.innerText = dog.name
+  bookLi.addEventListener("click", (event) => {
+    let bookTitle = document.createElement("h1")
+    bookTitle.innerText = book.title
 
-    let dogBreed = document.createElement("p")
-    dogBreed.innerText = dog.breed
+    let bookSubtitle = document.createElement("h2")
+    bookSubtitle.innerText = book.subtitle
 
-    let dogImage = document.createElement("img")
-    dogImage.src = dog.img_url
+    let bookDescription = document.createElement("p")
+    bookDescription.innerText = book.description
 
-    dogProfile.append(dogName, dogBreed, dogImage)
+    let bookAuthor = document.createElement("p")
+    bookAuthor.innerText = book.author
+
+    let bookImage = document.createElement("img")
+    bookImage.src = book.img_url
+
+    let likersList = document.createElement("ul")
+    likersList.id = "users-list"
+
+    // this if statement checks if there are any existing users who already like the book. if there aren't any users, it doesn't create any <li> elements
+    if (book.users.length > 0) {
+      book.users.forEach((user) => {
+        let likeUser = document.createElement("li")
+        likeUser.innerText = user.username
+        likeUser.id = user.username
+
+        // don't forget to append the new <li> elements to the list of users!
+        likersList.append(likeUser)
+      })
+    }
+
+    // this adds all of our new HTML elements to the book's show panel
+    showPanel.append(bookImage, bookTitle, bookAuthor, bookSubtitle, bookDescription, likersList)
   })
 }
 ```
@@ -153,43 +179,44 @@ let turnDogIntoLi = (dog) => {
 #### 4. If you want to show only one book at a time, clear the `<div>` of all content each time you click on a book in the `<ul>`.
 
 ```javascript
-let turnDogIntoLi = (dog) => {
-  let dogLi = document.createElement("li")
-  dogLi.innerText = dog.name
-  dogsList.append(dogLi)
+let turnBookIntoLi = (book) => {
+  let bookLi = document.createElement("li")
+  bookLi.innerText = book.title
+  bookList.append(bookLi)
 
-  dogLi.addEventListener("click", (event) => {
-    // this line will set the <div> to be empty before you create the new HTML elements
-    dogProfile.innerHTML = ""
+  bookLi.addEventListener("click", (event) => {
+    // this clears the show panel of any existing HTML elements
+    showPanel.innerHTML = ""
 
-    let dogName = document.createElement("h1")
-    dogName.innerText = dog.name
+    let bookTitle = document.createElement("h1")
+    bookTitle.innerText = book.title
 
-    let dogBreed = document.createElement("p")
-    dogBreed.innerText = dog.breed
+    let bookSubtitle = document.createElement("h2")
+    bookSubtitle.innerText = book.subtitle
 
-    let dogImage = document.createElement("img")
-    dogImage.src = dog.img_url
+    let bookDescription = document.createElement("p")
+    bookDescription.innerText = book.description
 
-    dogProfile.append(dogName, dogBreed, dogImage)
-  })
-}
-```
+    let bookAuthor = document.createElement("p")
+    bookAuthor.innerText = book.author
 
-If you want to write less lines of code, you can use `innerHTML` (but it's less secure):
+    let bookImage = document.createElement("img")
+    bookImage.src = book.img_url
 
-```javascript
-let turnDogIntoLi = (dog) => {
-  let dogLi = document.createElement("li")
-  dogLi.innerText = dog.name
-  dogsList.append(dogLi)
+    let likersList = document.createElement("ul")
+    likersList.id = "users-list"
 
-  dogLi.addEventListener("click", (event) => {
-    dogProfile.innerHTML = `
-      <h1>${dog.name}</h1>
-      <p>${dog.breed}</p>
-      <img src=${dog.img_url}>
-    `
+    if (book.users.length > 0) {
+      book.users.forEach((user) => {
+        let likeUser = document.createElement("li")
+        likeUser.innerText = user.username
+        likeUser.id = user.username
+
+        likersList.append(likeUser)
+      })
+    }
+
+    showPanel.append(bookImage, bookTitle, bookAuthor, bookSubtitle, bookDescription, likersList)
   })
 }
 ```

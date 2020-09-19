@@ -5,7 +5,7 @@ const showPanel = document.getElementById("show-panel")
 const myUser = {"id": 1, "username": "pouros"}
 
 fetch(booksURL)
-.then(r => r.json())
+.then(response => response.json())
 .then((booksArr) => {
   booksArr.forEach((book) => {
     turnBookIntoLi(book)
@@ -86,7 +86,7 @@ let turnBookIntoLi = (book) => {
             users: book.users
           })
         })
-        .then(r => r.json())
+        .then(response => response.json())
         .then((newBook) => {
           book.users = newBook.users
           updateLikersList(book.users)
@@ -101,7 +101,7 @@ let turnBookIntoLi = (book) => {
             users: book.users.filter(checkUsername)
           })
         })
-        .then(r => r.json())
+        .then(response => response.json())
         .then((newBook) => {
           book.users = newBook.users
           updateLikersList(book.users)
