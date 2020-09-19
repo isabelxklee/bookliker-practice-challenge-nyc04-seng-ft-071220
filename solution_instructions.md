@@ -341,33 +341,52 @@ let turnBookIntoLi = (book) => {
 }
 ```
 
-#### 4. Since we don't want to mutate the existing user's array for each book, let's use the spread operator to create a new array with user 1 added in at the end. Make sure this method is inside the book `<li>`'s event listener, but before the click event listener for the like button.
+#### 4. Push the myUser instance into the book's users array. Let's store this as a local variable so that we can cleanly invoke it inside the body of our fetch request.
 
 ```javascript
-dogLi.addEventListener("click", (event) => {
-  
-  ...
+let turnBookIntoLi = (book) => {
+  let bookLi = document.createElement("li")
+  bookLi.innerText = book.title
+  bookList.append(bookLi)
 
-  let likeButton = document.createElement("button")
-  likeButton.innerText = "Like"
+  bookLi.addEventListener("click", (event) => {
+    
+    ...
 
-  dogProfile.append(dogName, dogBreed, dogImage, likeButton)
+    let likeButton = document.createElement("button")
+    likeButton.innerText = "Like"
 
-  let usersArray = [...dog.users, myUser]
+    if (book.users.length > 0) {
+      book.users.forEach((user) => {
+        let likeUser = document.createElement("li")
+        likeUser.innerText = user.username
+        likeUser.id = user.username
 
-  likeButton.addEventListener("click", (event) => {
-    fetch()
-    .then()
-    .then()
+        likersList.append(likeUser)
+      })
+    }
+
+    showPanel.append(bookImage, bookTitle, bookAuthor, bookSubtitle, bookDescription, likersList, likeButton)
+
+    likeButton.addEventListener("click", (event) => {
+      // here's where we're creating a new variable to represent the updated array of book's users
+      let usersArray = book.users.push(myUser)
+
+      fetch()
+      .then()
+      .then()
+    })
   })
-})
+}
 ```
 
-#### 5. Add the API URL, method, headers, and body to the fetch request.
+#### 5. Add the API URL with the book's id interpolated into the URL, the method, headers, and body to the fetch request.
 
 ```javascript
 likeButton.addEventListener("click", (event) => {
-  fetch(`${dogsUrl}/${dog.id}`, {
+  let usersArray = book.users.push(myUser)
+
+  fetch(`${booksURL}/${book.id}`, {
     method: "PATCH",
     headers: {
       "Content-type": "application/json"
@@ -386,7 +405,9 @@ likeButton.addEventListener("click", (event) => {
 
 ```javascript
 likeButton.addEventListener("click", (event) => {
-  fetch(`${dogsUrl}/${dog.id}`, {
+  let usersArray = book.users.push(myUser)
+
+  fetch(`${booksURL}/${book.id}`, {
     method: "PATCH",
     headers: {
       "Content-type": "application/json"
@@ -400,13 +421,15 @@ likeButton.addEventListener("click", (event) => {
 })
 ```
 
-#### 7. Fill out the second `.then` statement. Push user 1 into the object in memory (`book.users`), then create a new `<li>` element for user 1 and append it to the list of users who've liked the book.
+#### 7. Fill out the second `.then` statement. Create a new `<li>` element for myUser and append it to the list of users who've liked the book.
 
 Remember that we have to update 3 things: the object in memory (the JSON object), the backend (the data stored in our `db.json` file), and the DOM (what you see in the browser).
 
 ```javascript
 likeButton.addEventListener("click", (event) => {
-  fetch(`${dogsUrl}/${dog.id}`, {
+  let usersArray = book.users.push(myUser)
+
+  fetch(`${booksURL}/${book.id}`, {
     method: "PATCH",
     headers: {
       "Content-type": "application/json"
@@ -417,7 +440,6 @@ likeButton.addEventListener("click", (event) => {
   })
   .then(response => response.json())
   .then((newUsersArray) => {
-    dog.users.push(myUser)
     let newUserLi = document.createElement("li")
     newUserLi.innerText = myUser.username
     likersList.append(newUserLi)
