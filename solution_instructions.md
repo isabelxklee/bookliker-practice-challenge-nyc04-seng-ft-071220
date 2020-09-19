@@ -341,7 +341,7 @@ let turnBookIntoLi = (book) => {
 }
 ```
 
-#### 4. Push the myUser instance into the book's users array. Let's store this as a local variable so that we can cleanly invoke it inside the body of our fetch request.
+#### 4. Push the myUser instance into the book's users array.
 
 ```javascript
 let turnBookIntoLi = (book) => {
@@ -369,8 +369,8 @@ let turnBookIntoLi = (book) => {
     showPanel.append(bookImage, bookTitle, bookAuthor, bookSubtitle, bookDescription, likersList, likeButton)
 
     likeButton.addEventListener("click", (event) => {
-      // here's where we're creating a new variable to represent the updated array of book's users
-      let usersArray = book.users.push(myUser)
+      // here's where we're pushing our user instance into the book's users array
+      book.users.push(myUser)
 
       fetch()
       .then()
@@ -384,7 +384,7 @@ let turnBookIntoLi = (book) => {
 
 ```javascript
 likeButton.addEventListener("click", (event) => {
-  let usersArray = book.users.push(myUser)
+  book.users.push(myUser)
 
   fetch(`${booksURL}/${book.id}`, {
     method: "PATCH",
@@ -392,8 +392,8 @@ likeButton.addEventListener("click", (event) => {
       "Content-type": "application/json"
     },
     body: JSON.stringify({
-      // remember that usersArray already contains user 1 from the previous step
-      users: usersArray
+      // remember that we've already added our user to the book's users array
+      users: book.users
     })
   })
   .then()
@@ -421,13 +421,15 @@ likeButton.addEventListener("click", (event) => {
 })
 ```
 
-#### 7. Fill out the second `.then` statement. Create a new `<li>` element for myUser and append it to the list of users who've liked the book.
+#### 7. Fill out the second `.then` statement. Reassign `book.users` to have the same value as the updated book's users array. Create a new `<li>` element for myUser and append it to the list of users who've liked the book.
 
-Remember that we have to update 3 things: the object in memory (the JSON object), the backend (the data stored in our `db.json` file), and the DOM (what you see in the browser).
+Remember that we have to update 3 things: the backend (the data stored in our `db.json` file), the object in memory (the JSON object), and the DOM (what you see in the browser).
+
+To summarize: the PATCH request is updating the backend, `book.users = updatedBook.users` inside the second `.then` statement is updating the object in memory, and `let newUserLi = document.createElement("li")` is updating the DOM.
 
 ```javascript
-likeButton.addEventListener("click", (event) => {
-  let usersArray = book.users.push(myUser)
+likeButton.addEventListener("click", (event) => {    
+  book.users.push(myUser)
 
   fetch(`${booksURL}/${book.id}`, {
     method: "PATCH",
@@ -435,17 +437,20 @@ likeButton.addEventListener("click", (event) => {
       "Content-type": "application/json"
     },
     body: JSON.stringify({
-      users: usersArray
+      users: book.users
     })
   })
   .then(response => response.json())
-  .then((newUsersArray) => {
+  .then((updatedBook) => {
+    book.users = updatedBook.users
     let newUserLi = document.createElement("li")
     newUserLi.innerText = myUser.username
     likersList.append(newUserLi)
   })
 })
 ```
+
+Et voilà! That is how you solve all the core deliverables for this lab. 🌟 You can keep reading if you're interested in tackling the bonus challenge.
 
 <a name="challenge-4"/>
 
