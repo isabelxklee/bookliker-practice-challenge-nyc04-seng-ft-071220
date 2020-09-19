@@ -140,6 +140,7 @@ let turnBookIntoLi = (book) => {
   bookList.append(bookLi)
 
   bookLi.addEventListener("click", (event) => {
+    // here's where we creating all of our fancy new HTML elements!
     let bookTitle = document.createElement("h1")
     bookTitle.innerText = book.title
 
@@ -176,7 +177,7 @@ let turnBookIntoLi = (book) => {
 }
 ```
 
-#### 4. If you want to show only one book at a time, clear the `<div>` of all content each time you click on a book in the `<ul>`.
+#### 4. If you want to show only one book at a time, clear the `<div>` of all content each time you click on a book in the `<ul>`. Make sure this is the first line inside the bookLi event listener, so that the new HTML elements can be created on a blank canvas.
 
 ```javascript
 let turnBookIntoLi = (book) => {
@@ -191,20 +192,7 @@ let turnBookIntoLi = (book) => {
     let bookTitle = document.createElement("h1")
     bookTitle.innerText = book.title
 
-    let bookSubtitle = document.createElement("h2")
-    bookSubtitle.innerText = book.subtitle
-
-    let bookDescription = document.createElement("p")
-    bookDescription.innerText = book.description
-
-    let bookAuthor = document.createElement("p")
-    bookAuthor.innerText = book.author
-
-    let bookImage = document.createElement("img")
-    bookImage.src = book.img_url
-
-    let likersList = document.createElement("ul")
-    likersList.id = "users-list"
+    ...
 
     if (book.users.length > 0) {
       book.users.forEach((user) => {
@@ -307,77 +295,25 @@ let turnBookIntoLi = (book) => {
 #### 3. Write a fetch statement and two `.then` statements inside the like button's event listener.
 
 ```javascript
-let turnBookIntoLi = (book) => {
-  let bookLi = document.createElement("li")
-  bookLi.innerText = book.title
-  bookList.append(bookLi)
-
-  bookLi.addEventListener("click", (event) => {
-    
-    ...
-
-    let likeButton = document.createElement("button")
-    likeButton.innerText = "Like"
-
-    if (book.users.length > 0) {
-      book.users.forEach((user) => {
-        let likeUser = document.createElement("li")
-        likeUser.innerText = user.username
-        likeUser.id = user.username
-
-        likersList.append(likeUser)
-      })
-    }
-
-    showPanel.append(bookImage, bookTitle, bookAuthor, bookSubtitle, bookDescription, likersList, likeButton)
-
-    likeButton.addEventListener("click", (event) => {
-      // here's the skeleton for the fetch statement and the two then statements that follow it
-      fetch()
-      .then()
-      .then()
-    })
-  })
-}
+likeButton.addEventListener("click", (event) => {
+  // here's the skeleton for the fetch statement and the two then statements that follow it
+  fetch()
+  .then()
+  .then()
+})
 ```
 
-#### 4. Push the myUser instance into the book's users array.
+#### 4. Push the myUser instance into the book's users array before the fetch statement.
 
 ```javascript
-let turnBookIntoLi = (book) => {
-  let bookLi = document.createElement("li")
-  bookLi.innerText = book.title
-  bookList.append(bookLi)
+likeButton.addEventListener("click", (event) => {
+  // here's where we're pushing our user instance into the book's users array
+  book.users.push(myUser)
 
-  bookLi.addEventListener("click", (event) => {
-    
-    ...
-
-    let likeButton = document.createElement("button")
-    likeButton.innerText = "Like"
-
-    if (book.users.length > 0) {
-      book.users.forEach((user) => {
-        let likeUser = document.createElement("li")
-        likeUser.innerText = user.username
-        likeUser.id = user.username
-
-        likersList.append(likeUser)
-      })
-    }
-
-    showPanel.append(bookImage, bookTitle, bookAuthor, bookSubtitle, bookDescription, likersList, likeButton)
-
-    likeButton.addEventListener("click", (event) => {
-      // here's where we're pushing our user instance into the book's users array
-      book.users.push(myUser)
-
-      fetch()
-      .then()
-      .then()
-    })
-  })
-}
+  fetch()
+  .then()
+  .then()
+})
 ```
 
 #### 5. Add the API URL with the book's id interpolated into the URL, the method, headers, and body to the fetch request.
@@ -392,7 +328,7 @@ likeButton.addEventListener("click", (event) => {
       "Content-type": "application/json"
     },
     body: JSON.stringify({
-      // remember that we've already added our user to the book's users array
+      // remember that we've already added our user to the book's users array from the previous step
       users: book.users
     })
   })
@@ -425,7 +361,7 @@ likeButton.addEventListener("click", (event) => {
 
 Remember that we have to update 3 things: the backend (the data stored in our `db.json` file), the object in memory (the JSON object), and the DOM (what you see in the browser).
 
-To summarize: the PATCH request is updating the backend, `book.users = updatedBook.users` inside the second `.then` statement is updating the object in memory, and `let newUserLi = document.createElement("li")` is updating the DOM.
+**To summarize:** the PATCH request is updating the backend, `book.users = updatedBook.users` inside the second `.then` statement is updating the object in memory, and `let newUserLi = document.createElement("li")` is updating the DOM.
 
 ```javascript
 likeButton.addEventListener("click", (event) => {    
@@ -456,3 +392,8 @@ Et voilà! That is how you solve all the core deliverables for this lab. 🌟 Yo
 
 ## BONUS: Challenge 4
 **Can you make it so a second patch request to the same book removes your user from the list of users? Can you toggle likes on and off?**
+
+Since we are going to be doing some major refactoring for this bonus challenge, please refer to `bonus_index.js` for the solution code.
+
+## Steps
+#### 1. Inside `index.js`, create local variables that store the API URL and `<ul>`.
